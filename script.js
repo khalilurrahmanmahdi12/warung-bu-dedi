@@ -530,9 +530,13 @@ function downloadCsv() {
     filtered.reduce((sum, tx) => sum + tx.total, 0)
   ]);
 
+  // Excel Indonesia umumnya memakai titik koma sebagai pemisah kolom.
   const csv = '\uFEFF' + rows.map(row =>
-    row.map(value => `"${String(value ?? '').replaceAll('"', '""')}"`).join(',')
-  ).join('\n');
+    row.map(value => {
+      const text = String(value ?? '').replaceAll('"', '""');
+      return `"${text}"`;
+    }).join(';')
+  ).join('\r\n');
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);

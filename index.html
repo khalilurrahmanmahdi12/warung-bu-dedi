@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#15803d" />
+  <title>Warung Bu Dedi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">WBD</div>
+      <h1>Warung Bu Dedi</h1>
+      <p>Masuk untuk membuka kasir dan data warung.</p>
+      <form id="loginForm">
+        <label>
+          Email
+          <input id="loginEmail" type="email" required placeholder="contoh@email.com" />
+        </label>
+        <label>
+          Kata Sandi
+          <input id="loginPassword" type="password" required minlength="6" placeholder="Minimal 6 karakter" />
+        </label>
+        <button id="loginBtn" type="submit" class="primary-btn full-btn">Masuk</button>
+        <p id="loginError" class="login-error"></p>
+      </form>
+    </div>
+  </section>
+
+  <div id="appShell" class="hidden">
+  <header class="topbar">
+    <div>
+      <h1>Warung Bu Dedi</h1>
+      <p>Kasir dan pencatatan stok sederhana</p>
+    </div>
+    <button id="logoutBtn" class="logout-btn">Keluar</button>
+  </header>
+
+  <nav class="nav-tabs" aria-label="Navigasi utama">
+    <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+    <button class="nav-btn" data-page="barang">Barang</button>
+    <button class="nav-btn" data-page="kasir">Kasir</button>
+    <button class="nav-btn" data-page="riwayat">Riwayat</button>
+  </nav>
+
+  <main class="container">
+    <section id="dashboard" class="page active">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">RINGKASAN</span>
+          <h2>Dashboard Warung</h2>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Total Jenis Barang</span>
+          <strong id="statProducts">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Total Stok</span>
+          <strong id="statStock">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Transaksi Hari Ini</span>
+          <strong id="statTodayTransactions">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Penjualan Hari Ini</span>
+          <strong id="statTodayRevenue">Rp0</strong>
+        </article>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <h3>Transaksi Terbaru</h3>
+          <button class="text-btn" data-go="riwayat">Lihat semua</button>
+        </div>
+        <div id="recentTransactions"></div>
+      </div>
+    </section>
+
+    <section id="barang" class="page">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">DATA BARANG</span>
+          <h2>Kelola Barang</h2>
+        </div>
+        <button id="openProductModal" class="primary-btn">+ Tambah Barang</button>
+      </div>
+
+      <div class="panel">
+        <div class="search-row">
+          <input id="productSearch" type="search" placeholder="Cari nama barang..." />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama Barang</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th class="actions-col">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="kasir" class="page">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">TRANSAKSI</span>
+          <h2>Kasir</h2>
+        </div>
+      </div>
+
+      <div class="cashier-layout">
+        <div class="panel">
+          <div class="search-row">
+            <input id="cashierSearch" type="search" placeholder="Cari barang..." />
+          </div>
+          <div id="cashierProducts" class="product-grid"></div>
+        </div>
+
+        <aside class="panel cart-panel">
+          <div class="panel-title">
+            <h3>Keranjang</h3>
+            <button id="clearCart" class="text-btn danger-text">Kosongkan</button>
+          </div>
+          <div id="cartItems" class="cart-items"></div>
+          <div class="cart-total">
+            <span>Total</span>
+            <strong id="cartTotal">Rp0</strong>
+          </div>
+          <button id="checkoutBtn" class="primary-btn full-btn">Selesaikan Transaksi</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="riwayat" class="page">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">PENJUALAN</span>
+          <h2>Riwayat dan Rekapan</h2>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="filter-group">
+            <select id="historyFilter">
+              <option value="all">Semua transaksi</option>
+              <option value="today">Hari ini</option>
+              <option value="month">Bulan ini</option>
+            </select>
+            <input id="historySearch" type="search" placeholder="Cari barang atau kode..." />
+          </div>
+          <button id="downloadCsv" class="primary-btn">Download Rekapan CSV</button>
+        </div>
+
+        <div class="summary-strip">
+          <div>
+            <span>Total Transaksi</span>
+            <strong id="historyCount">0</strong>
+          </div>
+          <div>
+            <span>Total Penjualan</span>
+            <strong id="historyRevenue">Rp0</strong>
+          </div>
+        </div>
+
+        <div id="historyList" class="history-list"></div>
+      </div>
+    </section>
+  </main>
+
+  </div>
+
+  <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Tambah Barang</h3>
+        <button id="closeProductModal" class="icon-btn" aria-label="Tutup">×</button>
+      </div>
+      <form id="productForm">
+        <input id="productId" type="hidden" />
+        <label>
+          Nama Barang
+          <input id="productName" type="text" required maxlength="80" placeholder="Contoh: Indomie Goreng" />
+        </label>
+        <label>
+          Harga
+          <input id="productPrice" type="number" required min="0" step="500" placeholder="Contoh: 3500" />
+        </label>
+        <label>
+          Stok
+          <input id="productStock" type="number" required min="0" step="1" placeholder="Contoh: 20" />
+        </label>
+        <div class="modal-actions">
+          <button type="button" id="cancelProductModal" class="secondary-btn">Batal</button>
+          <button type="submit" class="primary-btn">Simpan Barang</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
